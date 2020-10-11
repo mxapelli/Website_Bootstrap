@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <title>GitHub Repositories</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+	<script>
+	$(document).ready(function(){
+	$("#table").hide()});
+	</script>
+	<script>
+      var obj;
+      function checkDrink() {
+      console.log(obj);
+      }   
+      $(document).ready(function(){
+        $("#search").click(function(){
+          $("#table").empty();
+          $.getJSON(("https://api.github.com/users/") + $("#user").val() + "/repos", function JSONRecibido(json){
+            obj = json;
+            var len = obj.length;
+            var i;
+            $("#table").append("<thead><tr><th>Repository Name</th><th>Description</th><th>Followers</th></tr></thead><tbody>");
+            for (i = 0; i < len; i++){
+              $("#table").append((" <thead><tr><td>" + obj[i].name + "</td><td>" + obj[i].description + "</td><td>" + obj[i].watchers + "</td></tr></thead>"));
+            }
+            $("#table").append(("</tbody>"));
+          });
+          $("#table").show();
+        });
+      });
+    </script>   
+  </head>
+  <body>
+  <h1>Github Repositories</h1>
+  <hr>
+  <p>Enter the name of the user</p>
+  <input type="text" placeholder="Username" id="user" value="mxapelli">
+  <button id="search" class="btn btn-primary">
+      Show Repositories
+	</button>
+	<hr>
+	<table class="table table-bordered" style="width: 90%;" id="table"></table>
+  </body>
+</html>
